@@ -1,0 +1,500 @@
+1需求测试：查看杯子使用说明书
+2界面测试：查看杯子外观
+3功能度：用水杯装水看漏不漏，水能不能被喝到
+4安全性：杯子有没有毒
+5可靠性：杯子从不同的角度落下的损坏程度
+6:可移植性：杯子从不同地方，温度环境下是否可以正常使用
+7：兼容性：杯子能够容纳果汁，白水，酒精，汽油
+8：易用性：杯子是否烫手，是否防滑措施，是否方便使用
+9：疲劳测试：案例一放24小时检查泄露情况，乘上汽油放24小时检查泄露时间和情况
+10：压力测试：用针并在针上不断加压看压强多大会穿透
+11跌落测试：带包装不损坏
+12震动测试：检查产品是否应对公路
+13本地化测试：语言风俗
+14对设计的改进建议：标识
+
+
+1将缺陷提交到缺陷管理库中备案
+2然后获取判断依据和标准
+    根据需求说明书，产品说明，设计文档，确实实际结果是否和计划中有不一致的地方提供缺陷的直接依据
+   如没有文档依据可以根据软件的一般性特性类说明是否存在不一致的地方
+   根据用户一般使用习惯来确认是否是缺陷
+  与设计人员开发人员和客户代表等相关人员探讨
+3：合理的论述，向测试经理说明自己判断的理由，注意客观，严谨，
+4：等待测试经理做出最后决定，如还有争议可向上级反映做出决定
+
+业务流程：
+点击支付   选择支付方式 确认金额  输入密码  成功支付
+冒烟测试完成
+
+1易用性测试 免密支付 指纹支付 错误提示易懂
+2兼容性测试 不同系统 WiFi /4G/5G  浏览器
+3性能测试  页面跳转时间 支付成功后跳转账单信息 支付时耗电量 不同网络环境下支付成功的相应时间
+4安全测试 新设备提示支付实名认证
+5界面测试 支付页面简约大气；金额字体合适；键盘合适账单信息合适
+6功能测试
+     支付方式
+     支付金额 断网，支付成功退款；余额不足；达到上线；金额输入错误；
+7容错性测试   
+8压力测试   多个用户向一个账户支付
+
+
+查看CPU信息 /proc/meminfo
+查看CPU使用率最高的进程 ps -aux |sort -k3nr  |head -K
+过滤ERROR 的行 cat file_name | grep "ERROR"
+删除一个多级目录 mkdir -p ./a/b
+                           rm -rf ./a
+linux查看进程跑了多少时间
+    top -b -s -n 1 |grep httpd
+	显示任务自启动以来所使用总CPU的时间但她不包括经过的时间
+	etime:自进程开始以来经过的时间，以[[DD-]hh:]mm:ss的形式出现
+	ps -p 16337 -o -etime
+	ELAPSEED
+	  13-13:13:26
+	ps -p 16337 -o -etimes
+	ELAPSEED
+	   1170810 秒
+	表示在服务器上已经运行13天13小时13分钟，26秒
+	etimes:自进程开始以来的经过的时间，一秒为单位
+	为此，需找出进程的PID ---->>>pidef httpd
+  使用进程名而不是PID
+     ps -eo pid,etime,cmd， |grep httpd |grep -v grep
+查看系统硬盘空间命令 df -aTh
+
+						   
+查看一个文件的头十行  head  -n 10 /etc/profile
+查看最后50行  tail  -n 50 /etc/profile
+查看某端口号 netstat -anp |grep port_number
+查看进程号 ps -ef | grep ps_name/ps_number
+动态查看日志 tail -f log_file
+查看当前机器listen 所有端口 netstat -tlnp
+打包 tar zcvf XXX.tat.gz
+tar zxvf XXX.tat.gz
+
+
+
+
+顺序表逻辑顺序和物理顺序相同，插入和删除需要移动大量数据
+#define MaxSize 50
+typedef struct{
+	ElemType data[MaxSize];
+	int length;
+}Sqlist; 
+
+动态分配
+#define InitSize 100
+typedef struct{
+	ElemType *data;
+	int MaxSize,length;
+}SeqList;
+随机访问  通过首地址和元素序号可在时间范围O(1)内找到
+存储密度高每个节点知存储数据元素
+
+L.data = (ELemType *)malloc(sizeof(ELemType)*InitSize); 
+L.data = new ELemType[InitSize]; C++
+插入操作
+在顺序表L第i个元素位置 插入新元素e 范围：l<=i<=L.length+1
+bool ListInsert(Sqlist &L,int i,ElemType e){
+	if(i<1 || i>L.length+1)
+		return false;
+	if(L.length >MaxSize)
+		return false;
+	for(int j=L.length;j>=i;j--)
+		L.data[j] =L.data[j-1];
+	L.data[i-1]=e;
+	L.length++;
+	return true;
+}
+
+表尾加入：i= n+1  后移语句不执行 O(1)
+最坏的情况i=1 元素的语句将执行n次  O(n)
+平均情况;
+线性表插入算法的平均复杂度 O(n)
+删除操作 删除第i个元素
+用引用元素e返回
+bool ListDelete(Sqlist &L,int i,ELemType &e ){
+	if(i<1 || i>length+1)
+		return false;
+	if(L.length >MaxSize)
+		return false;
+	for(int j=i;j<L.length;j++)
+		data[j-1]=data[j];
+	L.length--;
+	return true;
+}
+最好：
+
+
+
+1XX  (临时响应) 表示需要请求这继续执行操作的状态码
+2XX   表示成功处理了请求的状态码，表示客户端发送请求到web服务其已成功
+3XX  要完成请求需要进一步操作，通常用来重定向
+     302 请求的对象已被移动
+4XX   请求错误，妨碍了服务器的处理
+      400  服务器不理解请求的语法
+	  401  请求要求身份认证
+	  403  服务器拒绝请求
+	  404  服务器找不到请求的页面
+5XX  服务器错误(内部错误)不是请求错误
+     500 去服务器错误，无法完成请求  服务器内部错误
+	 502 服务器作为网关或者代理，从上游服务器收到无效响应 错误网关
+	 503 服务器目前无法使用(由于超载或者停机)，这只是暂时状态 服务不可用
+	 504 服务器作为网关或代理，但没有及时从上游收到请求  网关超时
+
+SQL 
+test表 
+id  name  second
+1   张三   67                                                
+2   李四   78 
+3   王五   86
+4   张三   65
+5   张三   99
+6   李四   74
+求某列的和：select sum(second) from test
+求某列胡平均数：select avg(second)  from test
+求某列的最小数：select  min(second) from test
+求某列的最大值：select  max(second) from test
+求某列的行数：select  count(second) from test
+
+两张表  
+部门表department:
+	部门编号表 dept_id
+	部门名字  dept_name
+员工表employee：
+    员工编号 emp_id
+	员工姓名 emp_name
+	员工编号 dept_id  
+	工资     emp_wage
+求各部门的平均工资：select d.dept_name,round(avg(nvl(e.emp_wage,0)),2) sal 
+					from employee e  left join department d
+					on e.dept_id =d.dept_id
+					group by d.dept_name
+				
+求各部门的总工资：select d.dept_name,sum(nvl(e.emp_wage,0)) sal
+				  from employee e  left join department d
+				  on e.dept_id =d.dept_id
+				  group by d.dept_name				  
+求工资大于5000的员工 所属部门名字,员工id,和员工工资
+				 select d.dept_name,e.emp_id,e.emp_wage
+				 from department d,employee e 
+				 where e.emp_wage>5000 and d.dept_id =e.dept_id;
+				 
+增 ---->>>insert.
+删 ----->>delete
+改 ----->>>update
+查 ----->>>select 或着show
+创建一个表名：employee
+    含有 id，name，sex，birthday, job
+	creat table employee(
+		id int;
+		name varchar(40);
+		sex char(4);
+		birthday date;
+		job varchar(100);
+	)
+表中增加image字段：
+   alter table employee add image blob; //blob 最常用于存储文件，图像等媒体文件
+修改job值,使其长度未60 原为100：
+   alter table employee modify job varchar(60);
+删除sex列：
+   alter table employee drop sex;
+表名修改为：user(原emplyee)
+   rename table employee to user;
+修改字符集为utf-8:
+   alter table user character set utf8;
+列名修改nam改为username:
+   alter table user change column name username varchar(100);
+删除表：
+   drop table user;
+
+
+
+修改表数据：
+  update employee set salay=5000;
+删除表所有数据：
+  delete from employee;
+查询表数据：
+  select * from student where english>=80 and english<=90;
+
+
+进入数据库：mysql -u root -p 
+
+数据库：---->>按照数据结构来组织，存储和管理数据的仓库
+关系型数据库---->>>由多张能相互联接的二维行列表组成的数据库
+主关键字------>>>primary key 表中一个或多个字段，它的值用于唯一的标识表中的某一条记录
+外键 ---->>>>表示了两个关系之间的相互关系  以另一个关系的外键作主关键字的表称为主表，
+                                           具有此外键的表被称为主表的从表，外键又称外关键字
+索引 ->>>一种单独的物理的对数据库表中的一列
+             或多个值进行排序的一种存储结构 
+		其实值某一个表中一列或者若干列的集合或者相应
+		的指向表中物理标识这些值数据页的逻辑指针
+
+
+七层协议 
+物理层:负责将信息编码或电流脉冲或其他信号用于网上传输   Rj45等将数据转化成 0和1 
+数据链路层:PPP,MTU,SLIP  数据包的形式
+网络层：ICMP,IGMP,IP  确定计算机的位置
+传输层;UDP，TCP
+UDP ：只发不收不管别人收不收得到  支持一对一,一对多和多对多  不可靠传输  首部开销小 8字节  
+      面向实时应用(IP电话，视频会议，直播deng等)
+	  传输方式：面向报文
+	  面向连接
+TCP：三次握手，四次挥手  只能是一对一   可靠传输 首部开销最小 20字节 最大60字节
+      例如文件传输
+	  传输方式：面向字节流
+	  无连接
+会话层  建立连接
+表示层  linux下的QQ和window下可以通信 一个应用层被另一个应用层接收
+应用层 包含 文件传输，访问和管理协议等
+        常见的应用层协议  ：规定数据的传输协议
+HTTP，HTTPS，FTP，POP3，SMTP，telent
+
+HTTP: 80 超文本传输协议
+Https：443 HTTP+SSL HTTP的安全版
+FTP：20,21,990  文本传输协议
+pop3：110 邮局协议
+telnet  ：  远程终端协议
+SmTP： 25 简单邮件传输协议
+互联网分层结果好处：上层变动不影响下层结构
+ 
+TCP/IP协议簇：
+    IP：internet Protocol 网际协议 在源地址和目的地址之间传输数据  网络号和主机号
+	ICMP：网络控制消息协议 常见互联网状态依赖于ICMP协议
+	TCP：传输控制  字节流  由于TCP首部与IP首部均为20字节
+	UDP：流媒体，DNS等 发了不管，发送者不知道目的地址
+	DHCP：DynamicHostConfiggratificationProtocol 动态主机配置协议  用于局域网和主机配置
+	DNS：
+	FTP：
+	TFTP：
+	SSH：
+	POP：
+	SMTP：
+	HTTP：
+sniff函数用法：
+    sniff(filter="",iface="any",prn=function,count=n)
+	iface:网卡的名字
+	prn：回调函数每当一个符合filter的报文被探测到时，执行
+	count：最多嗅探到多少个报文
+	filter使用类型：
+	    type：可选项，host，net，port，portrage
+		例如：hostname hostnameA
+		net 172.31 //相当于172.31.0.0/16
+		port 80
+		portrage 6000-6010
+	dir:传输方向
+	   可选项src,dst,src or dst ;src and dst;
+	   例如：src net 172.31
+	         src or dst port 21
+	proto:协议
+	    ether,fddi,tr,wlan,ip,ip6,arp,rarp,decnt,tcp,udp,icmp
+		ether src hostnameA
+		arp net 172.31
+		udp portrage 7000-8000
+例如：
+    dpkg=sniff(filter="host 192.168.1.100 and tcp",iface="lan",count=2)
+	dpkg.show()
+	dpkg=sniff(lfilter=lambda x:x.haslayer,iface='lan',count=5 )
+	a=sniff(ifac='lan',count=2)
+	a[1].time
+	wrpcap("D:\pcap\s.pcap",pkg,*arg,**karys)
+	rdpcap("D:\pcap\s.pcap",count=-1) 默认-1读取所有包，count=2 读取包的个数
+使用python发包的方法：
+from scapy.all import *
+packet=rdpcap('附件报文路径')[0]
+packet['Ether'].src = 'ROS的MAC地址，可通过抓心跳包获得'
+packet['Ether'].dst = '样机WAN MAC'
+packet['PPPoES'].sessionid = 样机pppoe连接的session id，转换为10进制
+sendp(packet, iface='lan', loop=0)
+参数
+lan@client1
+IP
+LAN_IP(Static IP)
+ARP欺骗包
+参数
+数值
+以太网 目的MAC
+FF:FF:FF:FF:FF:FF
+以太网 源MAC
+MAC2
+操作类型
+1
+ARP 源MAC
+MAC2
+ARP 源IP
+IP1
+ARP 目的MAC
+00:00:00:00:00:00
+ARP 目的IP
+LAN口IP
+注：IP1为LAN端同网段任意IP，但为了避免LAN_IP无法访问WEB页面，测试时避免将IP1设置为LAN_IP; MAC1、MAC2为任意不相同MAC。
+使用Scapy发包，指令如下：
+sendp(Ether(dst='FF:FF:FF:FF:FF:FF',src='00:11:22:33:44:55')/ARP(hwsrc='00:11:22:33:44:55',psrc='192.168.1.100',hwdst='00:00:00:00:00:00',pdst='192.168.1.1',op=1),iface='lan')
+
+	 
+修改网卡
+netsh  i i show interface
+netsh i i set subinterface "lan" mtu=20000 store=persistent
+send(IP(src='192.168.0.10',dst='192.168.1.1')/UDP(sport=1110,dport=441)/Raw(RandString(size=1400)),iface="lan",loop=1)
+linux 修改mtu
+ifconfig eth0 mtu 1470
+
+冒烟测试：就是完成一个新版本的开发后，对该版本的最基础的功能进行测试。保证基础的功能和流程能够走得通
+操作：对着需求文档把新功能过一遍目标，把所有的功能流程走一遍，用例--->>>覆盖需求文档级别的用例就可以了
+主要确认新版本是否存在致命性bug    
+最大优势：节约测试的时间成本，减少测试轮次
+回归测试：软件维护阶段对软件修改后的测试，指修改旧代码后重新进行测试以确认修改没有引入新的错误或者导致其他代码产生错误
+
+
+服务器测试要测什么？
+  1：服务器就是未web/app端提供一些后台的接口比如用户个人信息，交易记录的读取和存储 一般使用http接口
+  后端接口一般同时提供给ios/android/web端，协调测试进度
+  Jmeter性能测试
+  2：是对更后端的数据库，缓存系统，中间件，文件系统等进行测试
+     稳定性测试：
+	 压力测试:
+	 容错性测试：模拟非正常情况(比如断电，网络时断时续，服务器硬盘空间)
+
+正向代理和反向代理
+ 正向--->>就是加载客户端前面的一层网关，代客户端发出请求
+ 反向----->>在服务器前加一层网关接收外部请求
+   都达到隐藏自身的目的
+   
+装饰器和语法糖  需补习
+   日志实例
+	def func():
+		print("func");
+	from datetime import datetime as dt
+	def log():
+		print('+str(dt.now()+)' +func.__name__)
+		func();
+使用时：log(func)
+输出： [2017-09-10 20:51:09.970854]func
+换一种写法：
+	def log(log):
+		def wrapper():
+			print('+str(dt.now()+)' +func.__name__)
+			func()
+			return wrapper
+	func = log(func)
+	func()
+	
+	@log
+	def func():
+		print("func");
+高阶函数 --->>>函数名可作为参数传递
+         ---->>>函数名可以赋值给其他变量
+		 ---->>函数名可以作为返回值
+闭包延长了局部变量的生命周期            
+   
+同步锁
+import time,threading,random
+
+account_balance = 500  #
+r = threading.Lock()
+def option_num2(num):
+	r.acquire() 
+	
+	global account_balance
+	balance = account_balance
+	time.sleep(random.randint(1,10) * 0.1)
+	balance = balance + num
+	account_balance = balance
+	r.release()
+	
+t1 = threading.Thread(target = option_num2,args=(10000,))
+t2 = threading.Thread(target = option_num2,args=(-300,))
+
+# join 会把整个线程停住，造成串行
+t1.start()
+t2.start()
+t1.join()
+t2.join()
+
+死锁和递归锁
+死锁---<><<线程之间贡献多个资源的时候，两个分别占有一定的资源并且同时等待对方的资源
+互斥条件：进程要求所分配的资源(如打印机)进行排他性控制即在一段时间内某资源仅为一个进程所占有其他人请求则请求进程只能等待
+不可剥夺条件：进程已获取的资源在未使用之前不可剥夺，只能等待使用完由自己释放
+请求与保持条件：当进程因请求资源而阻塞时，对已获取胡资源保持不放
+循环等待条件；当发生死锁时必然存在一个进程--资源环形链
+
+可重入锁--->>>threading.RLock   支持在同一线程多次请求同一资源
+RLock 内部维护这一个Lock 和一个 counter 变量 ，counter记录了acquire 的次数 从而使资源可以被多次acquire
+直到一个线程所有的acquire都被释放，其他线程才可以获得资源
+
+ntp.py 
+import os 
+import time 
+import ntplib
+
+c = ntplib.NTPClient() 
+response = c.request('222.9.9.5') 
+ts = response.tx_time 
+  
+_date = time.strftime('%Y-%m-%d',time.localtime(ts)) 
+_time = time.strftime('%X',time.localtime(ts))
+
+
+date_list=_date.split('-')
+time_list=_time.split(':')
+
+os.system("date %d-%d-%d" % (int(date_list[0]), int(date_list[1]), int(date_list[2])))
+os.system("time %d:%d:%d" % (int(time_list[0]), int(time_list[1]), int(time_list[2])))
+
+逻辑题
+1:烧一根不均匀要用一个小时，如何判断用它来判断半个小时?
+   半个小时：两头一起烧
+
+2:烧一根不均匀要用一个小时。现在有若干材质相同的绳子，如何计算一个小时十五分钟？
+   两根绳子 一根从两端烧，两端烧完时，将一端的绳子熄灭，
+      --->>这样得到半个小时的计时
+	将刚才熄灭的绳子两端点燃，燃尽 即为 15分钟
+	再取一条两头烧加载一起 就是一个小时15分钟
+3:请问一盒蛋糕切成8份，分给8个人，但蛋糕盒还必须留一份，大家如何分给这8个人？
+    最后一个人连蛋糕盒一起分给第8个人
+4：四个人ABCD 过桥，一次最多过两个人，他们的手电能维持 十七分钟，每个人所需的时间分别为
+1，2，5，10 ：求最快的时间全部通过桥？
+    最快17分钟
+过程：A和B先过(2分钟)，A回来(1分钟)
+      C和D一起过(10分钟)，B回来(2分钟接A) A和B一起(两分钟)
+	  T = 2+1+10+2+2+2 =17min
+5：分汤
+有两个人，甲和乙，每个人都会领到一碗汤，让他们自己分 ，他俩总觉得
+对方多分了，后来他们想了个办法：一个人分汤，让另一个人先选，争端解决了，
+后来又来了一个丙，有什么办法可以和平可以维持下去？
+  是让甲分汤，分好后由乙丙按任意顺序给自己挑汤，剩余一碗留给甲，这样乙和丙的总和肯定是他们两个拿到最大
+  然后将他们俩的汤混合之后再按照两人的方法再分
+6：屋里三盏灯，屋外三个开关，一个开关仅控制一盏灯，屋外看不到屋内，怎样只进屋一次就知道那个开关控制那盏灯？四盏呢？
+   三盏灯：打开两个灯，过一会关闭一个，进去看亮着的；不亮但是发热的;不亮也不发热的
+   四盏灯：打开两个灯，过一会关闭一个，然后打开一个新的灯，进去看不亮但是发热的；亮但是不发热的；亮而且发热的；不亮也不发热的 
+7: 这个村到底有多少女人？
+有一个奇怪的村子，一共100个人，有男有女，男人说真话而女人说假话，一天一个人来到这个村子，问村民:"你们村子一共有几个女人啊？"
+第一个村民说1个，第二个村民说2个。。。以此类推，第一百个村民说100个，那这个村子到底多少个女人？
+    100个人100个不同的答案。只有一个答案是对的，说明只有一个人说了真话，而男人说真话，女人说假话，说明只有一个男人，也就是99个女人
+
+2024/11/15
+驱动测试是软件开发过程中的关键环节，
+主要目标是确保硬件设备与操作系统间的接口——驱动程序——功能稳定、高效。
+驱动程序作为操作系统与硬件设备之间的桥梁，负责控制硬件执行各种操作。
+此测试确保驱动程序在不同系统配置下稳定运行，
+避免问题影响产品质量与用户体验。
+驱动测试的重要性在于其直接关系到软件产品的稳定性和用户体验。
+不稳定的驱动程序可能导致系统崩溃、数据丢失或硬件无法正常工作。
+通过严格测试，能提前发现并修复问题，减少维护成本和用户投诉。
+
+此过程涉及多个方面，包括功能、性能、兼容性、稳定性
+、安全和回归测试。
+功能测试验证驱动程序实现预定功能，如读写硬盘、打印文档。
+性能测试--评估驱动程序在处理大量数据或高负载情况下的表现，
+确保响应时间和吞吐量符合预期。
+兼容性测试--确保驱动程序在不同操作系统、硬件平台和网络环境下的正常工作。
+稳定性测试--长时间运行驱动程序，检测潜在稳定性问题，如内存泄漏。
+安全测试--检查驱动程序无安全漏洞，防止被恶意软件利用。
+回归测试--更新或修复后重新执行测试，确保更改没有引入新问题。
+驱动测试--采用自动化和手动测试相结合的方法。
+自动化测试--提高效率和覆盖率，适用于重复性任务，如回归测试；
+手动测试--探索未知使用场景，适合复杂判断情况。
+面对硬件资源限制、测试环境复杂性、驱动程序复杂性挑战，
+驱动测试面临巨大工作量，需在多种操作系统和硬件配置下进行
+。驱动测试对软件产品的稳定性和可靠性至关重要。
+全面测试--发现并解决驱动问题，为用户提供优质体验
+
